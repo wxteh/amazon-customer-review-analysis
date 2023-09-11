@@ -1,0 +1,6 @@
+end/
+__pychache__/
+
+*.env
+*.env.*
+env.*
