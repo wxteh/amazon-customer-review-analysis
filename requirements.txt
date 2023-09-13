@@ -18,6 +18,13 @@ google-cloud-storage
 db-dtypes
 pyarrow
 
+#notebook
+notebook
+jupyterlab
+
+#googletranslate
+googletrans==3.1.0a0
+
 #API
 fastapi
 pytz
