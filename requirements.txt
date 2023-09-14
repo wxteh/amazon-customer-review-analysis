@@ -17,6 +17,7 @@ google-cloud-bigquery
 google-cloud-storage
 db-dtypes
 pyarrow
+nltk
 
 #API
 fastapi
