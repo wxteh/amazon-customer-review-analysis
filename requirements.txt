@@ -22,8 +22,9 @@ pyarrow
 notebook
 jupyterlab
 
-#googletranslate
+#translate
 googletrans==3.1.0a0
+langdetect
 
 #API
 fastapi
