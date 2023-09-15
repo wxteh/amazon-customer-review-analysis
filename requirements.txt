@@ -30,3 +30,9 @@ googletrans==3.1.0a0
 fastapi
 pytz
 uvicorn
+
+#bert
+torch
+torchvision
+torchaudio
+transformers
