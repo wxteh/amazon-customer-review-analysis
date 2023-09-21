@@ -19,6 +19,13 @@ db-dtypes
 pyarrow
 nltk
 
+#bert
+torch
+torchvision
+torchaudio
+transformers
+
+
 #notebook
 notebook
 jupyterlab
