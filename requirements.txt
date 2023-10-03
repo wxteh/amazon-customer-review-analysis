@@ -38,3 +38,6 @@ langdetect
 fastapi
 pytz
 uvicorn
+
+#front-end
+streamlit
