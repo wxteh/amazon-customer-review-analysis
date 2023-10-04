@@ -41,9 +41,9 @@ def predict(product_category, text):
     tokens = tokenizer.encode(translated_text, return_tensors="pt")
     result = bert_model(tokens)
     score = int(torch.argmax(result.logits))+1
-    #return int(torch.argmax(result.logits))+1
 
-    df = pd.read_csv("../dataframe/summary_keywords_df.csv")
+
+    df = pd.read_csv("../dataframe/absolute_final_df.csv")
 
     if score < 4:
         if 5 in df["sentiment"].values:
@@ -62,7 +62,7 @@ def predict(product_category, text):
         if data is None or data.empty:
             data = "No products found matching your criteria."
     else:
-        message = "Great choice!"
+        message = "We are glad you enjoy the product! Thank you for your review submission."
         data = None
 
     response_data = {"message": message, "data": data}

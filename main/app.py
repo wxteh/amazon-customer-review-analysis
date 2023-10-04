@@ -1,9 +1,8 @@
 import streamlit as st
 import requests
 import pandas as pd
-#def generate_card(product_id, product_name, summary, image_url, link_url):
-# {image_url} {link_url}
-def generate_card(product_id, product_name, summary):
+
+def generate_card(product_id, product_name, summary, img_link, product_link):
     card_html = f"""
     <style>
     .card-product {{
@@ -45,9 +44,9 @@ def generate_card(product_id, product_name, summary):
     }}
 
     </style>
-    <a href="https://www.google.com">
+    <a href="{product_link}">
       <div class="card-product">
-        <img src="https://m.media-amazon.com/images/W/WEBP_402378-T1/images/I/51UsScvHQNL._SX300_SY300_QL70_FMwebp_.jpg" />
+        <img src="{img_link}" />
         <div class="card-product-infos">
           <h2>{product_name}</h2>
           <p>{summary}</p>
@@ -128,7 +127,9 @@ if st.button('Submit'):
                 df_results = pd.DataFrame({
                                 'Product ID': list(prediction['data']['product_id'].values()),
                                 'Product Name': list(prediction['data']['product_name'].values()),
-                                'Summary': list(prediction['data']['summary'].values())
+                                'Summary': list(prediction['data']['summary'].values()),
+                                'img_link':list(prediction['data']['img_link'].values()),
+                                'product_link':list(prediction)['data']['product_link'].values())
                                 })
 
 
