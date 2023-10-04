@@ -5,62 +5,94 @@ import pandas as pd
 def generate_card(product_id, product_name, summary, img_link, product_link):
     card_html = f"""
     <style>
+
     .card-product {{
       overflow: hidden;
-      height: 192px;
       background: #262730;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border: 1px solid #1F2633;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       display: flex;
-      align-items: top;
+      align-items: flex-start;
       margin: 5px;
+      transition: background-color 0.3s, transform 0.3s;
     }}
+
+    .card-product:hover {{
+      background: #1F2633;
+      transform: translateY(-5px);
+    }}
+
+    .card-link {{
+      text-decoration: none;
+    }}
+
     .card-product img {{
-      height: 100%;
-      width: 190px;
+      height: 150px;
+      width: 150px;
       object-fit: cover;
+      margin: 10px;
     }}
+
     .card-product h2 {{
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 18px;
       margin: 0;
-      color: White;
-      opacity: 0.76;
+      margin-top: 10px;
+      padding: 0;
+      color: #E3EEF8;
     }}
+
     .card-product p {{
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.4;
-      opacity: .7;
-      margin-bottom: 0;
-      margin-top: 8px;
+      margin-top: 5px;
+      color: #D1D7E8;
     }}
+
     .card-product .card-product-infos {{
-      padding: 16px;
+      padding: 0px;
+      align-items:top;
       color: White;
-      background-color: #262730
+    }}
+
+
+    .card-product .brief {{
+      font-size: 12px;
+      margin-top: 10px;
+      padding: 0px;
+      color: #D7DEF5;
+    }}
+
+    .card-product .product-summary {{
+      font-size: 11px;
+      margin-top: 0px;
+      margin: 0px;
+      padding: 0px;
+      color: #C3CEE0;
     }}
 
     .body {{
-        background-color: #262730
+      background-color: #262730;
     }}
 
     </style>
-    <a href="{product_link}">
+    <a href="{product_link}" class="card-link">
       <div class="card-product">
-        <img src="{img_link}" />
+        <img src="{img_link}" alt="{product_name}" />
         <div class="card-product-infos">
-          <h2>{product_name}</h2>
-          <p>{summary}</p>
+          <h2 class="product-title">{product_name}</h2>
+          <p class="brief"><b>Summary of reviews</b></p>
+          <p class="product-summary">{summary}...</p>
         </div>
       </div>
     </a>
     """
     return card_html
 
-
-
-
 # Streamlit UI elements
 st.title("Alternative Product Recommendations")
+
+
 product = st.selectbox(f'Product Category', ('Choose your product category', '3DGlasses',	'Adapters&Multi-Outlets',	'Adapters',
                                              'AirFryers',	'AirPurifiers&Ionizers',	'AutomobileChargers',	'AVReceivers&Amplifiers',
                                              'BackgroundSupports',	'Basic',	'BasicCases',	'BasicMobiles',	'BatteryChargers',
@@ -116,28 +148,34 @@ if st.button('Submit'):
             text=review
         )
 
-        amazon_api_url = 'https://final-test-hezmcck7ba-nw.a.run.app/predict'
+        amazon_api_url = 'https://amazon-reviews-api-hezmcck7ba-nw.a.run.app/predict'
         response = requests.get(amazon_api_url, params=params)
 
         if response.status_code == 200:
             prediction = response.json()
             message = prediction['message']
-            if prediction["data"]:
+            data = prediction.get("data", None)
 
-                df_results = pd.DataFrame({
-                                'Product ID': list(prediction['data']['product_id'].values()),
-                                'Product Name': list(prediction['data']['product_name'].values()),
-                                'Summary': list(prediction['data']['summary'].values()),
-                                'img_link':list(prediction['data']['img_link'].values()),
-                                'product_link':list(prediction)['data']['product_link'].values())
-                                })
+            if data:
+                if isinstance(data, str):
+                    if len(data.strip()) > 0:
+                        st.write("Thank you for your feedback.")
+                else:
+                    df_results = pd.DataFrame({
+                        'Product ID': list(data.get('product_id', {}).values()),
+                        'Product Name': list(data.get('product_name', {}).values()),
+                        'Summary': list(data.get('summary', {}).values()),
+                        'img_link': list(data.get('img_link', {}).values()),
+                        'product_link': list(data.get('product_link', {}).values()),
+                    })
 
-
-                if not df_results.empty:
-                    st.write(message)
-                    for index, row in df_results.iterrows():
-                        card_html = generate_card(row['Product ID'], row['Product Name'], row['Summary'])
-                        st.write(card_html, unsafe_allow_html=True)
+                    if not df_results.empty:
+                        st.write(message)
+                        for index, row in df_results.iterrows():
+                            card_html = generate_card(row['Product ID'], row['Product Name'], row['Summary'], row["img_link"], row["product_link"])
+                            st.write(card_html, unsafe_allow_html=True)
+                    if len(data) == 1:
+                        st.write(message)
 
             else:
                 st.write(message)
