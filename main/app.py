@@ -6,11 +6,6 @@ def generate_card(product_id, product_name, summary, img_link, product_link):
     card_html = f"""
     <style>
 
-    .row-widget stButton {{
-    background-color: #0099ff;
-    color:#ffffff;
-    }}
-
     .card-product {{
       overflow: hidden;
       background: #262730;
@@ -64,7 +59,7 @@ def generate_card(product_id, product_name, summary, img_link, product_link):
     .card-product .brief {{
       font-size: 12px;
       margin-top: 10px;
-      padding: 0px;git
+      padding: 0px;
       color: #D7DEF5;
     }}
 
@@ -89,7 +84,6 @@ def generate_card(product_id, product_name, summary, img_link, product_link):
     </a>
     """
     return card_html
-
 
 
 # Streamlit UI elements
