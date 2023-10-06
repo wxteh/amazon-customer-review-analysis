@@ -71,10 +71,6 @@ def generate_card(product_id, product_name, summary, img_link, product_link):
       color: #C3CEE0;
     }}
 
-    .body {{
-      background-color: #262730;
-    }}
-
     </style>
     <a href="{product_link}" class="card-link">
       <div class="card-product">
@@ -88,6 +84,7 @@ def generate_card(product_id, product_name, summary, img_link, product_link):
     </a>
     """
     return card_html
+
 
 # Streamlit UI elements
 st.title("Alternative Product Recommendations")
