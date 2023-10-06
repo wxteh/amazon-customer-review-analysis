@@ -6,6 +6,11 @@ def generate_card(product_id, product_name, summary, img_link, product_link):
     card_html = f"""
     <style>
 
+    .row-widget stButton {{
+    background-color: #0099ff;
+    color:#ffffff;
+    }}
+
     .card-product {{
       overflow: hidden;
       background: #262730;
@@ -59,7 +64,7 @@ def generate_card(product_id, product_name, summary, img_link, product_link):
     .card-product .brief {{
       font-size: 12px;
       margin-top: 10px;
-      padding: 0px;
+      padding: 0px;git
       color: #D7DEF5;
     }}
 
@@ -69,10 +74,6 @@ def generate_card(product_id, product_name, summary, img_link, product_link):
       margin: 0px;
       padding: 0px;
       color: #C3CEE0;
-    }}
-
-    .body {{
-      background-color: #262730;
     }}
 
     </style>
@@ -88,6 +89,8 @@ def generate_card(product_id, product_name, summary, img_link, product_link):
     </a>
     """
     return card_html
+
+
 
 # Streamlit UI elements
 st.title("Alternative Product Recommendations")
